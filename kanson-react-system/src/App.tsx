@@ -5,7 +5,7 @@ function App() {
 
   return (
     <>
-      <div>搭建顶级组件</div>
+      <div>搭建顶级组件水水水水</div>
     </>
   )
 }
