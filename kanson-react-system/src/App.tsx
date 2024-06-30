@@ -1,13 +1,12 @@
-import { useState } from 'react'
-
+import React from 'react';
+import Routes from "./router";
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>搭建顶级组件水水水水</div>
-    </>
+    <div className="App">
+      <Routes></Routes>
+    </div>
   )
+
 }
 
-export default App
+export default App;
