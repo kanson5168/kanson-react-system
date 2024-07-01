@@ -1,48 +1,81 @@
 import {
   DesktopOutlined,
-  FileOutlined,
   PieChartOutlined,
   TeamOutlined,
+  FileOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import React, { useState } from "react";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 type MenuItem = Required<MenuProps>["items"][number];
-
-function getItem(
-  label: React.ReactNode,
-  key: React.Key,
-  icon?: React.ReactNode,
-  children?: MenuItem[]
-): MenuItem {
-  return {
-    key,
-    icon,
-    children,
-    label,
-  } as MenuItem;
-}
-
 const items: MenuItem[] = [
-  getItem("站点1", "/pageone", <PieChartOutlined />),
-  getItem("站点2", "/pagetwo", <DesktopOutlined />),
-  getItem("User", "pagethree", <UserOutlined />, [
-    getItem("Tom", "3"),
-    getItem("Bill", "4"),
-    getItem("Alex", "5"),
-  ]),
-  getItem("Team", "pagefour", <TeamOutlined />, [
-    getItem("Team 1", "6"),
-    getItem("Team 2", "8"),
-  ]),
-  getItem("Files", "9", <FileOutlined />),
+  {
+    label: "站点1",
+    key: "pageone",
+    icon: <PieChartOutlined />,
+  },
+  {
+    label: "站点2",
+    key: "pagetwo",
+    icon: <DesktopOutlined />,
+  },
+  {
+    label: "站点3",
+    key: "pagethree",
+    icon: <UserOutlined />,
+    children: [
+      {
+        label: "站点01",
+        key: "./pagethree/pagethree01",
+      },
+      {
+        label: "站点02",
+        key: "./pagethree/pagethree02",
+      },
+      {
+        label: "站点03",
+        key: "./pagethree/pagethree03",
+      },
+    ],
+  },
+  {
+    label: "站点4",
+    key: "pagefour",
+    icon: <TeamOutlined />,
+    children: [
+      {
+        label: "站点04",
+        key: "pagefourone",
+      },
+    ],
+  },
+  {
+    label: "站点7",
+    key: "pageseven",
+    icon: <FileOutlined />,
+  },
 ];
-
 const Comp: React.FC = () => {
-  const [openKeys, setOpenKeys] = useState([""]);
+  const currentlocation = useLocation();
+  let firstOpenKey: string = "";
+  // 设置初始化展开项
+  const getFirstOpenkey = (array) => {
+    for (const item of array) {
+      if (item.key && item.key === currentlocation.pathname) {
+        if (!item.children) {
+          firstOpenKey = item.key;
+        } else {
+          getFirstOpenkey(item.children);
+        }
+      }
+    }
+  };
+  getFirstOpenkey(items);
+  const [openKeys, setOpenKeys] = useState([firstOpenKey]);
   const navgativeTo = useNavigate();
+
   const meunClick = (e: { key: string }) => {
     navgativeTo(e.key);
   };
@@ -52,7 +85,7 @@ const Comp: React.FC = () => {
   return (
     <Menu
       theme="dark"
-      defaultSelectedKeys={["pageone"]}
+      defaultSelectedKeys={[currentlocation.pathname]}
       mode="inline"
       items={items}
       onClick={meunClick}
