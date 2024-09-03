@@ -22,7 +22,7 @@ export default function RandomCode(code: string) {
   const randomColor = (min: number, max: number) => {
     return `rgb(${randomNum(min, max)}, ${randomNum(min, max)}, ${randomNum(
       min,
-      max,
+      max
     )})`;
   };
   const draw = () => {
@@ -34,7 +34,7 @@ export default function RandomCode(code: string) {
     // 绘制背景
     ctx.fillStyle = randomColor(
       randoms.backgroundColorMin,
-      randoms.backgroundColorMax,
+      randoms.backgroundColorMax
     );
     ctx.fillRect(0, 0, width, height);
     // 绘制文字
@@ -47,7 +47,7 @@ export default function RandomCode(code: string) {
     txt: string,
     i: number,
     width: number,
-    height: number,
+    height: number
   ) => {
     ctx.fillStyle = randomColor(randoms.colorMin, randoms.colorMax);
     ctx.font =
